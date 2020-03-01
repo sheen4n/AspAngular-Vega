@@ -8,6 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using vega.Mapping;
 using vega.Persistence;
+using vega.Core;
+using vega.Core.Repositories;
+using vega.Persistence.Repositories;
 
 namespace vega
 {
@@ -33,6 +36,10 @@ namespace vega
             services.AddSingleton(mapper);
 
             services.AddDbContext<VegaDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:Vega"]));
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IVehicleRepository, VehicleRepository>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the Angular files will be served from this directory
